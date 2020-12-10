@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="org.zerock.mapper.BoardMapper">
+
+	<!-- Oracle 쿼리 -->
+	
+	<!-- 게시글 목록(리스트) -->
+  	<select id="getList" resultType="org.zerock.domain.BoardVO">
+  	<!-- XML구문이 아니고 쿼리문임을 표시 -->
+  	<![CDATA[	
+		select * from tbl_board where bno>0
+	]]>
+  	</select>
+  	
+  	<!-- 게시글 등록1 - insert 처리 -->
+  	<insert id="insert">
+	  	INSERT INTO tbl_board (bno, title, content, writer) 
+		VALUES (seq_board.nextval, #{title}, #{content}, #{writer})
+  	</insert>
+  	
+  	<!-- 게시글 등록2 - @SelectKey 사용 (자동으로 추가되는 PK 값 확인) -->
+  	<insert id="insertSelectKey">
+  		<selectKey keyProperty="bno" order="BEFORE" resultType="long">
+  			select seq_board.nextval from dual
+  		</selectKey>
+  		
+	  	INSERT INTO tbl_board (bno, title, content, writer) 
+		VALUES (#{bno}, #{title}, #{content}, #{writer})
+  	</insert>
+  	
+	<!-- 게시글 조회 (한 행) - read (select) 처리 -->
+  	<select id="read" resultType="org.zerock.domain.BoardVO">
+		select * from tbl_board where bno = #{bno}
+  	</select>
+  	
+	<!-- 게시글 삭제 - delete 처리 -->
+  	<delete id="delete">
+		delete from tbl_board where bno = #{bno}
+  	</delete>
+  	
+  	<!-- 게시글 수정 - update 처리 -->
+  	<update id="update">
+  		update tbl_board
+  		set title= #{title}, content = #{content}, writer = #{writer}, updateDate = sysdate
+  		where bno = #{bno}
+  	</update>
+  	
+  	<!-- 문제1) 게시글 삭제 개수 -->
+  	<select id="deleteNum" resultType="integer">
+		select max(bno)-count(*) as deletecount from tbl_board
+  	</select>
+  	
+	<!-- 문제2) 작성자의 총 작성글 개수 -->
+  	<select id="writeNum" resultType="integer">
+		select count(*) from tbl_board where writer= #{writer}
+  	</select>
+  	
+  	
+  	
+</mapper>
