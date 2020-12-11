@@ -108,6 +108,20 @@
 		    <version>1.2.17</version>
 		    <!-- <scope>provided</scope> -->	<!-- 404에러 -->
 		</dependency>
+
+		<!-- MySQL Connector/J: MySQL JDBC 연결 -->
+		<!-- <dependency>
+		    <groupId>mysql</groupId>
+		    <artifactId>mysql-connector-java</artifactId>
+		    <version>8.0.18</version>
+		</dependency> -->
+
+		<!-- MariaDB Java Client -->
+		<dependency>
+		    <groupId>org.mariadb.jdbc</groupId>
+		    <artifactId>mariadb-java-client</artifactId>
+		    <version>2.7.0</version>
+		</dependency>
 		
 		
 		<!-- 사용자 추가 끝 -->

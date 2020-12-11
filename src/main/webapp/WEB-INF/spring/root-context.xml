@@ -16,8 +16,8 @@
 		<property name="jdbcUrl" value="jdbc:oracle:thin:@localhost:1521:XE"></property> -->
 		
 		<!-- Oracle + mybatis +log4jdbc -->
-		<property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
-		<property name="jdbcUrl" value="jdbc:log4jdbc:oracle:thin:@localhost:1521:XE"></property>
+		<!-- <property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
+		<property name="jdbcUrl" value="jdbc:log4jdbc:oracle:thin:@localhost:1521:XE"></property> -->
 		
 				
 		<!-- MySQL 커넥션풀 설정 -->
@@ -31,16 +31,20 @@
 		
 		<!-- MariaDB 커넥션풀 설정 -->
 		<!-- <property name="driverClassName" value="org.mariadb.jdbc.Driver"></property>
-	   	<property name="jdbcUrl" value="jdbc:mariadb://localhost:3306/testdb"></property> -->
+	   	<property name="jdbcUrl" value="jdbc:mariadb://localhost:3306/car_mp3"></property> -->
 		
 		<!-- MariaDB + mybatis +log4jdbc -->
-		<!-- <property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
-		<property name="jdbcUrl" value="jdbc:log4jdbc:mariadb://localhost:3306/testdb"></property> -->
+		<property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
+		<property name="jdbcUrl" value="jdbc:log4jdbc:mariadb://192.168.0.11:3306/car_mp3"></property>
 				
 		
 		<!-- DB계정: book_ex -->
-		<property name="username" value="book_ex"></property>
-		<property name="password" value="book_ex"></property>
+		<property name="username" value="car_mp3"></property>
+		<property name="password" value="1234"></property>
+		
+		<!-- DB계정: book_ex -->
+		<!-- <property name="username" value="book_ex"></property>
+		<property name="password" value="book_ex"></property> -->
 		
 		<!-- DB계정: java -->
 		<!-- <property name="username" value="java"></property>
