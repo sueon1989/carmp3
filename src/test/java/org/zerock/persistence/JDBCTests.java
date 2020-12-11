@@ -28,7 +28,7 @@ public class JDBCTests {
 	@Test
 	public void testConnection_MariaDB() {
 		// try(자동으로 닫을 자원)
-		try(Connection conn = DriverManager.getConnection("jdbc:mariadb://192.168.0.11:3306:3306/car_mp3", "car_mp3", "1234")){
+		try(Connection conn = DriverManager.getConnection("jdbc:mariadb://192.168.0.11:3306/car_mp3", "car_mp3", "1234")){
 			log.info("MariaDB JDBC 연결 성공"+conn);	// INFO : orz.zerock.persistence.JDBCTests - oracle.jdbc.driver.T4CConnection@685cb137
 		} catch (Exception e) {
 			fail(e.getMessage());	// JUnit에서 에러메세지 찍기
