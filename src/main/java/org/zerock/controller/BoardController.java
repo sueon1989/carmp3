@@ -66,35 +66,35 @@ public class BoardController {
 		}
 
 		// 등록2 (교재방법)
-//		@PostMapping("/register")
-//		public String register(BoardVO board, RedirectAttributes rttr) {
-//
-//			// 등록 작업
-//			log.info("등록: " + board);
-//			service.register(board);
-//
-//			// 새롭게 등록된 게시물의 번호를 같이 전달
-//			rttr.addFlashAttribute("result", board.getBno());
-//
-//			// 리타이렉트 방식으로 목록화면 board/list 호출 
-//			return "redirect:/board/list";
-//		}
-
-		// 등록1 (기존방법) - model 사용
 		@PostMapping("/register")
-		public String register(BoardVO board, Model model) {
+		public String register(BoardVO board, RedirectAttributes rttr) {
 
 			// 등록 작업
 			log.info("등록: " + board);
 			service.register(board);
 
 			// 새롭게 등록된 게시물의 번호를 같이 전달
-			model.addAttribute("result", board.getBno());
-			// 나중에 한번만 보낼 수 있도록 변경하자!!!
+			rttr.addFlashAttribute("result", board.getBno());
 
 			// 리타이렉트 방식으로 목록화면 board/list 호출 
 			return "redirect:/board/list";
 		}
+
+		// 등록1 (기존방법) - model 사용
+//		@PostMapping("/register")
+//		public String register(BoardVO board, Model model) {
+//
+//			// 등록 작업
+//			log.info("등록: " + board);
+//			service.register(board);
+//
+//			// 새롭게 등록된 게시물의 번호를 같이 전달
+//			model.addAttribute("result", board.getBno());
+//			// 나중에 한번만 보낼 수 있도록 변경하자!!!
+//
+//			// 리타이렉트 방식으로 목록화면 board/list 호출 
+//			return "redirect:/board/list";
+//		}
 
 		// 조회 (한 행)
 		@GetMapping("/get")
