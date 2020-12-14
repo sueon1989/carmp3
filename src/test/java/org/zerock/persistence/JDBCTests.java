@@ -20,7 +20,7 @@ public class JDBCTests {
 //			Class.forName("org.mariadb.jdbc.Driver");			// MariaDB
 		} catch (Exception e){
 			e.printStackTrace();
-		}
+		} 
 	}
 
 	/* Oracle JDBC 연결 - 교재방법 */
