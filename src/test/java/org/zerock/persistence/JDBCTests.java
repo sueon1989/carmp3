@@ -27,7 +27,7 @@ public class JDBCTests {
 	@Test
 	public void testConnection() {
 		// try(자동으로 닫을 자원)
-		try(Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE", "book_ex", "book_ex")){
+		try(Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@192.168.0.11:1512:XE", "car_mp3", "1234")){
 			log.info(conn);	// INFO : orz.zerock.persistence.JDBCTests - oracle.jdbc.driver.T4CConnection@685cb137
 		} catch (Exception e) {
 			fail(e.getMessage());	// JUnit에서 에러메세지 찍기
@@ -40,7 +40,7 @@ public class JDBCTests {
 	public void testConnection_Previous() {
 		try{
 			Class.forName("oracle.jdbc.driver.OracleDriver");
-			Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE", "book_ex", "book_ex");
+			Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@192.168.0.11:1521:XE", "car_mp3", "1234");
 			log.info(conn);
 			// INFO : orz.zerock.persistence.JDBCTests - oracle.jdbc.driver.T4CConnection@685cb137
 		} catch (Exception e) {
