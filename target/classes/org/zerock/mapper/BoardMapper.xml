@@ -6,29 +6,72 @@
 <mapper namespace="org.zerock.mapper.BoardMapper">
 
 	<!-- Oracle 쿼리 -->
-	
+  		
 	<!-- 게시글 목록(리스트) -->
   	<select id="getList" resultType="org.zerock.domain.BoardVO">
   	<!-- XML구문이 아니고 쿼리문임을 표시 -->
   	<![CDATA[	
-		select * from tbl_board where bno>0
+		SELECT * FROM tbl_board WHERE bno>0 ORDER BY bno DESC
+	]]>
+  	</select>  
+  			
+	<!-- 게시글 목록(리스트) -->
+  	<select id="getListWithPaging" resultType="org.zerock.domain.BoardVO">
+  	<![CDATA[	
+		SELECT * FROM tbl_board WHERE bno>0 ORDER BY bno DESC LIMIT #{startNum}, #{amount}
 	]]>
   	</select>
   	
+  	<!-- 
+  	  	<select id="getListWithPaging" resultType="org.zerock.domain.BoardVO"> 
+	<![CDATA[ 
+		select bno, title, content, writer, regdate, updatedate 
+		from (
+			select /*+INDEX_DESC(tbl_board pk_board) */ 
+				rownum rn, bno, title, content,	writer, regdate, updatedate 
+			from tbl_board 
+			where rownum <= 20 ) 
+		where rn > 10
+	]]>  -->
+	<!-- 
+	<![CDATA[ 
+		select bno, title, content, writer, regdate, updatedate 
+		from (
+			select /*+INDEX_DESC(tbl_board pk_board) */ 
+				rownum rn, bno, title, content,	writer, regdate, updatedate 
+			from tbl_board 
+			where rownum <= #{pageNum} * #{amount} ) 
+		where rn > (#{pageNum} -1) * #{amount} 
+	]]>
+	</select>  -->
+  	
+	
+	<!-- member 목록(리스트) -->
+  	<select id="getList2" resultType="org.zerock.domain.MemberVO">
+  	<!-- XML구문이 아니고 쿼리문임을 표시 -->
+  	<![CDATA[	
+		select * from member where member_no>0
+	]]>
+  	</select>
+  	
+  	
+  	
+  	
+  	
   	<!-- 게시글 등록1 - insert 처리 -->
   	<insert id="insert">
-	  	INSERT INTO tbl_board (bno, title, content, writer) 
-		VALUES (seq_board.nextval, #{title}, #{content}, #{writer})
+	  	INSERT INTO tbl_board (<!-- bno,  -->title, content, writer) 
+		VALUES (<!-- seq_board.nextval,  -->#{title}, #{content}, #{writer})
   	</insert>
   	
   	<!-- 게시글 등록2 - @SelectKey 사용 (자동으로 추가되는 PK 값 확인) -->
   	<insert id="insertSelectKey">
-  		<selectKey keyProperty="bno" order="BEFORE" resultType="long">
-  			select seq_board.nextval from dual
+	  	INSERT INTO tbl_board (<!-- bno,  -->title, content, writer) 
+		VALUES (<!-- #{bno},  -->#{title}, #{content}, #{writer})
+		
+  		<selectKey keyProperty="bno" order="AFTER" resultType="long">
+  			SELECT LAST_INSERT_ID();
   		</selectKey>
-  		
-	  	INSERT INTO tbl_board (bno, title, content, writer) 
-		VALUES (#{bno}, #{title}, #{content}, #{writer})
   	</insert>
   	
 	<!-- 게시글 조회 (한 행) - read (select) 처리 -->
@@ -44,7 +87,7 @@
   	<!-- 게시글 수정 - update 처리 -->
   	<update id="update">
   		update tbl_board
-  		set title= #{title}, content = #{content}, writer = #{writer}, updateDate = sysdate
+  		set title= #{title}, content = #{content}, writer = #{writer}, updateDate = now() <!-- sysdate -->
   		where bno = #{bno}
   	</update>
   	
@@ -60,4 +103,45 @@
   	
   	
   	
+
+  	
+  	<!-- 
+  	<select id="getListWithPaging"
+		resultType="org.zerock.domain.BoardVO">
+	<![CDATA[
+	select 
+	  bno, title, content, writer, regdate, updatedate
+	from 
+	    (
+	    select /*+INDEX_DESC(tbl_board pk_board) */
+	      rownum rn, bno, title, content, writer, regdate, updatedate 
+	    from 
+	      tbl_board
+	    where 
+	]]>
+	<trim prefix="(" suffix=") AND " prefixOverrides="OR">
+		<foreach item='type' collection="typeArr">
+			<trim prefix="OR">
+				<choose>
+					<when test="type == 'T'.toString()">
+						title like '%'||#{keyword}||'%'
+					</when>
+					<when test="type == 'C'.toString()">
+						content like '%'||#{keyword}||'%'
+					</when>
+					<when test="type == 'W'.toString()">
+						writer like '%'||#{keyword}||'%'
+					</when>
+				</choose>
+			</trim>
+		</foreach>
+	</trim>
+	    
+	<![CDATA[    
+	    rownum <= #{pageNum} * #{amount}
+	    )
+	where rn > (#{pageNum} -1) * #{amount}   
+	]]>
+	</select>
+  	 -->
 </mapper>

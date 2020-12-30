@@ -15,6 +15,12 @@
 		<level value="info" />
 	</logger>
 	
+	<!-- 추가 -->
+	<!-- <logger name="com.mp3.controller">
+		<level value="info" />
+	</logger> -->
+	<!-- 추가 끝 -->
+	
 	<!-- 3rdparty Loggers -->
 	<logger name="org.springframework.core">
 		<level value="info" />

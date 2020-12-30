@@ -1,11 +1,14 @@
 package org.zerock.mapper;
 
+import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.zerock.domain.BoardVO;
+import org.zerock.domain.Criteria;
 
 import lombok.extern.log4j.Log4j;
 
@@ -23,6 +26,19 @@ public class BoardMapperTests {
 		mapper.getList().forEach(board -> log.info(board));
 	}
 	
+	// 게시글 목록(리스트)
+	@Test
+	public void testGetListWithPaging() {
+		Criteria cri = new Criteria(2, 20);
+		mapper.getListWithPaging(cri).forEach(board -> log.info(board));
+	}
+	
+	// member 목록(리스트)
+	@Test
+	public void testGetList2() {
+		mapper.getList2().forEach(member -> log.info(member));
+	}
+	
 	// 게시글 등록1 - insert 처리
 	@Test
 	public void testInsert() {
@@ -30,7 +46,7 @@ public class BoardMapperTests {
 		board.setTitle("새로 작성하는 글");
 		board.setContent("새로 작성하는 내용");
 		board.setWriter("newbie");
-
+		
 		mapper.insert(board);
 		
 		log.info(board);
@@ -45,6 +61,8 @@ public class BoardMapperTests {
 		board.setTitle("새로 작성하는 글 Select Key");
 		board.setContent("새로 작성하는 내용 Select Key");
 		board.setWriter("newbie");
+
+		log.info("등록 이전: "+board);
 
 		mapper.insertSelectKey(board);
 		
@@ -85,6 +103,43 @@ public class BoardMapperTests {
 		log.info("수정 테스트 UPDATE COUNT: "+ mapper.update(board));
 		log.info(board);
 	}
+	
+	@Test
+	public void testPaging() {
+
+		Criteria cri = new Criteria();
+	    cri.setPageNum(1);	// 3페이지 
+	    cri.setAmount(10);	// 10개씩
+
+		List<BoardVO> list = mapper.getListWithPaging(cri);
+
+		list.forEach(board -> log.info(board));
+
+	}
+	
+//	  @Test
+//	  public void testSearch() {
+//
+//	    Criteria cri = new Criteria();
+//	    cri.setKeyword("키워드");
+//	    cri.setType("TCW");
+//
+//	    List<BoardVO> list = mapper.getListWithPaging(cri);
+//
+//	    list.forEach(board -> log.info(board));
+//	  }
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	// 게시글 삭제 개수	
 	@Test

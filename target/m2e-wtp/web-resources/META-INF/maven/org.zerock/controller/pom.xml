@@ -3,8 +3,9 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.zerock</groupId>
+	<!-- <groupId>com.mp3</groupId> -->
 	<artifactId>controller</artifactId>
-	<name>201204_ex02</name>
+	<name>201209_ex02_carProject</name>
 	<packaging>war</packaging>
 	<version>1.0.0-BUILD-SNAPSHOT</version>
 	
@@ -131,7 +132,7 @@
 		<dependency>
 			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjrt</artifactId>
-			<version>${org.aspectj-version}</version>
+			<version>${org.aspectj-version}</version>	<!-- 1.6.10 -->
 		</dependency>	
 		
 		<!-- Logging -->

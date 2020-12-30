@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.zerock.domain.BoardVO;
+import org.zerock.domain.Criteria;
 
 import lombok.extern.log4j.Log4j;
 
@@ -47,6 +48,17 @@ public class BoardServiceTests {
 		// 람다식으로 표현 (교재 방법)
 //		service.getList().forEach(board -> log.info(board));
 		
+	}
+	
+//	목록(리스트)
+	@Test
+	public void testGetListCriteria() {
+		
+		Criteria cri = new Criteria(2,20);
+		List<BoardVO> boardList = service.getList(cri);
+		for(BoardVO board: boardList) {
+			log.info(board);
+		}
 	}
 	
 //	등록 - insert 처리 (SelectKey 사용)
@@ -129,7 +141,7 @@ public class BoardServiceTests {
 
 	}
 	
-//	게시글 삭제 개수
+//	게시글 작성 개수
 	@Test
 	public void testWriteCount() {
 		

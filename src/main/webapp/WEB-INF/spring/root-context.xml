@@ -13,11 +13,11 @@
 	
 		<!-- Oracle 커넥션풀 설정 -->
 		<!-- <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"></property> 
-		<property name="jdbcUrl" value="jdbc:oracle:thin:@localhost:1521:XE"></property> -->
+		<property name="jdbcUrl" value="jdbc:oracle:thin:@192.168.0.11:1521:XE"></property> -->
 		
 		<!-- Oracle + mybatis +log4jdbc -->
 		<!-- <property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
-		<property name="jdbcUrl" value="jdbc:log4jdbc:oracle:thin:@localhost:1521:XE"></property> -->
+		<property name="jdbcUrl" value="jdbc:log4jdbc:oracle:thin:@192.168.0.11:1521:XE"></property> -->
 		
 				
 		<!-- MySQL 커넥션풀 설정 -->
@@ -35,16 +35,16 @@
 		
 		<!-- MariaDB + mybatis +log4jdbc -->
 		<property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
-		<property name="jdbcUrl" value="jdbc:log4jdbc:mariadb://192.168.0.11:3306/car_mp3"></property>
+		<property name="jdbcUrl" value="jdbc:log4jdbc:mariadb://192.168.0.11:3306/book_ex"></property>
 				
 		
-		<!-- DB계정: book_ex -->
-		<property name="username" value="car_mp3"></property>
-		<property name="password" value="1234"></property>
+		<!-- DB계정: car_mp3 -->
+		<!-- <property name="username" value="car_mp3"></property>
+		<property name="password" value="1234"></property> -->
 		
 		<!-- DB계정: book_ex -->
-		<!-- <property name="username" value="book_ex"></property>
-		<property name="password" value="book_ex"></property> -->
+		<property name="username" value="book_ex"></property>
+		<property name="password" value="book_ex"></property>
 		
 		<!-- DB계정: java -->
 		<!-- <property name="username" value="java"></property>
@@ -63,8 +63,11 @@
 	</bean>
 
 	<mybatis-spring:scan base-package="org.zerock.mapper" />			<!-- p184 -->
+	<!-- <mybatis-spring:scan base-package="com.mp3.mapper" /> -->
 
 	<context:component-scan base-package="org.zerock.service">			<!-- p202 -->
 	</context:component-scan>
+	<!-- <context:component-scan base-package="com.mp3.service">
+	</context:component-scan> -->
 
 </beans>

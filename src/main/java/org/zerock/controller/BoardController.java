@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.zerock.domain.BoardVO;
+import org.zerock.domain.Criteria;
+import org.zerock.domain.PageDTO;
 import org.zerock.service.BoardService;
 
 import lombok.AllArgsConstructor;
@@ -22,39 +24,38 @@ public class BoardController {
 
 		private BoardService service;	
 		
-//		http://localhost:8082/board/list
+//		http://localhost:8080/board/list
 //			* Console에서 로그를 확인하기 위해 
 //			## log4j.xml에서 warn -> info로 변경
 //				37줄: <priority value="info" />	<!-- 기존: warn -->
 		// 목록(리스트)
+//		@GetMapping("/list")
+//		public void list(Model model) {
+//			
+//			log.info("리스트");
+//			model.addAttribute("list", service.getList());
+////			model.addAttribute(service.getList());	// 이름 생략해도 리턴타입 list로 보내짐
+//		}	
+		
+		// 목록(리스트)
 		@GetMapping("/list")
-		public void list(Model model) {
+		public void list(Criteria cri, Model model) {
 			
-			log.info("리스트");
-			model.addAttribute("list", service.getList());
+			log.info("리스트: " + cri);
+			model.addAttribute("list", service.getList(cri));
 //			model.addAttribute(service.getList());	// 이름 생략해도 리턴타입 list로 보내짐
+			
+			model.addAttribute("pageMaker", new PageDTO(cri, 222));	// PageDTO 클래스에서 객체를 생성해서 Model에  담아줌
+			// 전체 데이터 수는 임의로 222으로 지정해서 테스트
+
+//			int total = service.getTotal(cri);
+//			log.info("total: " + total);
+//			model.addAttribute("pageMaker", new PageDTO(cri, total));
 		}	
 		
-		// @GetMapping("/list")
-		// public void list(Criteria cri, Model model) {
-		//
-		// log.info("list: " + cri);
-		// model.addAttribute("list", service.getList(cri));
-		//
-		// }
 
-//		@GetMapping("/list")
-//		public void list(Criteria cri, Model model) {
-//
-//			log.info("list: " + cri);
-//			model.addAttribute("list", service.getList(cri));
-//			// model.addAttribute("pageMaker", new PageDTO(cri, 123));
-//
-//			int total = service.getTotal(cri);
-//
-//			log.info("total: " + total);
-//
-//			model.addAttribute("pageMaker", new PageDTO(cri, total));
+		
+
 //
 //		}
 
@@ -75,6 +76,7 @@ public class BoardController {
 
 			// 새롭게 등록된 게시물의 번호를 같이 전달
 			rttr.addFlashAttribute("result", board.getBno());
+			rttr.addFlashAttribute("status", "register_success");	// RedirectAttributes에 추가
 
 			// 리타이렉트 방식으로 목록화면 board/list 호출 
 			return "redirect:/board/list";
@@ -96,11 +98,12 @@ public class BoardController {
 //			return "redirect:/board/list";
 //		}
 
-		// 조회 (한 행)
-		@GetMapping("/get")
+		// 조회 (한 행) 또는 수정
+		// get으로 bno 받아서 전달하기
+		@GetMapping({ "/get", "/modify" })	// @GetMapping, @PostMapping: URL을 배열로 처리 가능
 		public void get(/* @RequestParam("bno") */ Long bno, Model model) {
 		
-			log.info("조회: /get");
+			log.info("조회: /get  또는  수정: /modify");
 			
 			// 화면 쪽으로 해당 번호의 게시물을 전달
 			model.addAttribute("board", service.get(bno));
@@ -127,8 +130,9 @@ public class BoardController {
 			
 			log.info("수정:" + board);
 			
-			if (service.modify(board)) {					// 글 수정에 성공한 경우에만
-				rttr.addFlashAttribute("result", "성공");	// RedirectAttributes에 추가
+			if (service.modify(board)) {						// 글 수정에 성공한 경우에만
+				rttr.addFlashAttribute("result", board.getBno());	// RedirectAttributes에 추가
+				rttr.addFlashAttribute("status", "modify_success");	// RedirectAttributes에 추가
 			}
 			return "redirect:/board/list";
 		}
@@ -155,8 +159,9 @@ public class BoardController {
 		{
 			
 			log.info("remove..." + bno);
-			if (service.remove(bno)) {						// 글 삭제에 성공한 경우에만
-				rttr.addFlashAttribute("result", "success");	// RedirectAttributes에 추가
+			if (service.remove(bno)) {					// 글 삭제에 성공한 경우에만
+				rttr.addFlashAttribute("result", bno);	// RedirectAttributes에 추가
+				rttr.addFlashAttribute("status", "remove_success");	// RedirectAttributes에 추가
 			}
 			return "redirect:/board/list";
 		}

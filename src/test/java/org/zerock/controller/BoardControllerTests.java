@@ -49,7 +49,19 @@ public class BoardControllerTests {
 			.getModelAndView()	// Model에 어떤 데이터들이 담겨 있는지 확인
 			.getModelMap());
 	}
+	
+	// 목록(리스트)-페이징 처리
+	@Test
+	public void testListPaging() throws Exception {
 
+		log.info( mockMvc
+			.perform(MockMvcRequestBuilders.get("/board/list")
+					.param("pageNum", "1").param("amount", "10"))	// GET 방식으로 호출
+			.andReturn()		// 반환된 결과를 이용해서
+			.getModelAndView()	// Model에 어떤 데이터들이 담겨 있는지 확인
+			.getModelMap());
+	}
+	
 	// 등록
 	@Test
 	public void testRegister() throws Exception {
